@@ -32,7 +32,6 @@
   "dependencies": {
     "fs-extra": "^11.3.0",
     "semver": "^7.7.2",
-    "tar": "^7.4.3",
     "tar-stream": "^3.1.7",
     "ts-node": "^10.9.2"
   }
