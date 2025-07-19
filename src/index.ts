@@ -3,6 +3,7 @@ import { addPackage, parseAddArgs } from './commands/add';
 import { init } from './commands/init';
 import { installPackages } from './commands/install';
 import { removePackage } from './commands/remove';
+import { help } from './commands/help';
 
 const [, , command, ...args] = process.argv;
 async function main() {
@@ -33,15 +34,8 @@ async function main() {
             break;
         case 'help':
         default:
-            console.log(`
-vex - Experimental Package Manager (v0.0.1)
-
-Usage:
-  vex install              Install dependencies
-  vex add <package>        Add a new package
-  vex init [-y|--yes]      Creates a new package.json
-  vex help                 Show help
-            `);
+            help(args[0]);
+            break;
     }
 }
 
