@@ -2,13 +2,13 @@
   "name": "vex",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "vex.js",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/vex.ts"
   },
   "bin": {
-    "vex": "./dist/index.js"
+    "vex": "./dist/vex.js"
   },
   "repository": {
     "type": "git",

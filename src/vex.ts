@@ -6,6 +6,13 @@ import { removePackage } from './commands/remove';
 import { help } from './commands/help';
 
 const [, , command, ...args] = process.argv;
+
+class Vex {
+    getCmd(cmd: string) {
+        return import(`./commands/${cmd}.js`);
+    }
+}
+
 async function main() {
     switch (command) {
         case 'install':
