@@ -136,4 +136,3 @@ dist
 .pnp.*
 
 package-lock.json
-lib/
