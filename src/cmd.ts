@@ -3,6 +3,7 @@ import Vex from './vex';
 export default class Command {
     static description: string | null = null;
     static params: string[] = [];
+    static usage: string[];
     vex: Vex;
 
     constructor(vex: Vex) {
@@ -19,5 +20,9 @@ export default class Command {
 
     get params() {
         return (this.constructor as typeof Command).params;
+    }
+
+    get usage() {
+        return (this.constructor as typeof Command).usage;
     }
 }

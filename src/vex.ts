@@ -1,8 +1,15 @@
+import Command from './cmd';
 import { cmdRef } from './utils/cmdList';
+import defaultUsage from './utils/defaultUsage';
+import packageFile from '../package.json';
 
 export default class Vex {
-    #command: string | null = null;
+    #command: Command | null = null;
     argv: string[] = [];
+
+    static get version() {
+        return packageFile.version;
+    }
 
     static async getCmd(cmd: string) {
         const c = cmdRef(cmd);
@@ -45,9 +52,19 @@ export default class Vex {
             const Command = cmdModule.default;
             const command = new Command(this);
 
+            if (!this.#command) this.#command = command;
+
             return command.execute(args);
         } catch (err) {
             console.error(`Failed to execute command '${cmd}':`, err);
         }
+    }
+
+    get command() {
+        return this.#command?.name;
+    }
+
+    get usage() {
+        return defaultUsage(this);
     }
 }

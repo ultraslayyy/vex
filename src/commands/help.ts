@@ -1,10 +1,20 @@
 import Command from '../cmd';
-import { cmdRef } from '../utils/cmdList';
+import Vex from '../vex';
 
 export default class help extends Command {
-    static description = "Get help with vex and it's commands.";
+    static description = "Get help with vex and its commands.";
 
-    execute(args: string[]) {
-        console.log('Default output'); // TODO: Return default help message. this.vex.defaultHelp; (most likely)
+    async execute(args: string[]) {
+        if (!args.length) {
+            console.log(this.vex.usage);
+        }
+
+        if (args.length >= 1) {
+            this.#searchCmd(args[0]);
+        }
+    }
+
+    async #searchCmd(cmd: string) {
+        
     }
 }
