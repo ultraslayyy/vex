@@ -12,7 +12,7 @@ export function updateLockfile(pkg: string, version: string, metadata: any, type
     if (type === 'vex') {
         return;
     } else {
-        let data;
+        let data = {} as npmLockfile;
         let packagejson: PackageJson;
 
         if (fs.existsSync(LOCKFILE_PATH)) {
@@ -23,23 +23,25 @@ export function updateLockfile(pkg: string, version: string, metadata: any, type
             packagejson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
         } else return;
 
-        let lockFile: npmLockfile = {
-            name: packagejson.name,
-            version: version,
-            lockfileVersion: 1,
-            packages: {
-                "": {
-                    name: packagejson.name,
-                    version: packagejson.name,
-                    license: packagejson.license,
-                    dependencies: packagejson.dependencies,
-                    bin: packagejson.bin,
-                    devDependencies: packagejson.devDependencies
-                }
+        Object.assign(data, {
+           name: packagejson.name,
+           version: version,
+           lockfileVersion: 1
+        });
+
+        data.packages = {
+            ...data.packages,
+            "": {
+                name: packagejson.name,
+                version: packagejson.version,
+                license: packagejson.license,
+                dependencies: packagejson.dependencies,
+                bin: packagejson.bin,
+                devDependencies: packagejson.devDependencies
             }
         }
 
-        lockFile.packages[`node_modules/${pkg}`] = {
+        data.packages[`node_modules/${pkg}`] = {
             version,
             resolved: metadata.dist.tarball,
             integrity: metadata.dist.integrity,
@@ -54,7 +56,7 @@ export function updateLockfile(pkg: string, version: string, metadata: any, type
             peerDependenciesMeta: metadata.peerDependenciesMeta
         }
 
-        fs.writeFileSync(LOCKFILE_PATH, JSON.stringify(lockFile, null, 2));
+        fs.writeFileSync(LOCKFILE_PATH, JSON.stringify(data, null, 2));
     }
 }
 
@@ -62,7 +64,7 @@ export interface npmLockfile {
     name?: string;
     version?: string;
     lockfileVersion: 1,
-    packages: {
+    packages?: {
         "": {
             name: string;
             version: string;
@@ -87,64 +89,21 @@ export interface npmLockfile {
             license: string;
             optional?: string;
             os?: string[];
-            dependencies?: {
-                [dep: string]: string;
-            }
-            bin?: {
-                [bin: string]: string;
-            }
-            engines?: {
-                [engine: string]: string;
-            }
+            dependencies?: Record<string, string>;
+            bin?: Record<string, string>;
+            engines?: Record<string, string>;
             funding?: {
                 type?: string;
                 url: string;
-            }
-            optionalDependencies?: {
-                [optDep: string]: string;
-            }
-            peerDependencies?: {
-                [peerDep: string]: string;
-            }
-            peerDependenciesMeta?: {
-                [peerDepMeta: string]: {
-                    optional: boolean;
-                }
-            }
-        } | {
-            version: string;
-            resolved: string;
-            integrity: string;
-            cpu?: string[];
-            dev?: boolean;
-            funding?: {
+            } | {
                 type?: string;
                 url: string;
             }[];
-            license: string;
-            workspaces?: string[];
-            optional?: boolean;
-            os?: string[];
-            dependencies?: {
-                [dep: string]: string;
-            }
-            bin?: {
-                [bin: string]: string;
-            }
-            engines?: {
-                [engine: string]: string;
-            }
-            optionalDependencies?: {
-                [optDep: string]: string;
-            }
-            peerDependencies?: {
-                [peerDep: string]: string;
-            }
-            peerDependenciesMeta?: {
-                [peerDepMeta: string]: {
-                    optional: boolean;
-                }
-            }
+            optionalDependencies?: Record<string, string>;
+            peerDependencies?: Record<string, string>;
+            peerDependenciesMeta?: Record<string, {
+                optional: boolean;
+            }>;
         }
     }
 }

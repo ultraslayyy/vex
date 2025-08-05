@@ -14,7 +14,9 @@
     "type": "git",
     "url": "git+https://github.com/ultraslayyy/i-am-bored.git"
   },
-  "keywords": [],
+  "keywords": [
+    "cli"
+  ],
   "author": "ultraslayyy",
   "license": "ISC",
   "type": "commonjs",
@@ -35,5 +37,8 @@
     "semver": "^7.7.2",
     "tar-stream": "^3.1.7"
   },
-  "files": ["lib", "bin"]
+  "files": ["lib", "bin"],
+  "engines": {
+    "node": ">=16.19.0"
+  }
 }

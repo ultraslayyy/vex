@@ -1,20 +1,38 @@
-import Command from '../cmd';
-import Vex from '../vex';
+import Command, { Param } from '../cmd';
+import Vex from '../cli';
+import defaultHelp from '../utils/defaultHelp';
 
 export default class help extends Command {
-    static description = "Get help with vex and its commands.";
+    static commandName = 'help';
+    static description = 'Show help';
+    static params: Param[] = [
+        { name: 'command', type: 'string', positional: true, description: 'Show help for a command. Equivalent to "vex <command> -h"' },
+        { name: 'all', type: 'boolean', alias: 'a', description: 'Show usages for all commands' }
+    ];
+    static usage = ['vex help [<command>]'];
 
-    async execute(args: string[]) {
-        if (!args.length) {
-            console.log(this.vex.usage);
+    async execute($global: Record<string, any>, $command: Record<string, any>, _: string[]) {
+        if (!_[0]) {
+            if ($command.all) {
+                return console.log(await defaultHelp(this.vex, true));
+            }
+
+            return console.log(await this.vex.usage);
         }
 
-        if (args.length >= 1) {
-            this.#searchCmd(args[0]);
-        }
-    }
+        try {
+            const cmdModule = await Vex.cmd(_[0]);
+            if (!cmdModule?.default) {
+                console.error(`Command '${_[0]}' not found`);
+                return;
+            }
 
-    async #searchCmd(cmd: string) {
-        
+            const Command = cmdModule.default;
+            const command = new Command(this.vex);
+
+            console.log(command.help);
+        } catch (err) {
+            console.error(err instanceof Error ? err.message : String(err));
+        }
     }
 }

@@ -4,25 +4,19 @@ try {
     enableCompileCache?.();
 } catch {}
 
-try {
-    const mod = require('../lib/vex.js');
-    const Vex = mod.default || mod;
+const Vex = require('../lib/cli.js');
 
+(async () => {
     const argv = process.argv.slice(2);
+    const vex = new Vex.default({ argv });
+
+    if (argv.length === 0) {
+        await vex.execute('help');
+        return;
+    }
+
     const cmd = argv[0];
     const args = argv.slice(1);
 
-    if (!cmd) {
-        console.error('No command provided');
-        process.exit(1);
-    }
-
-    const vex = new Vex({ argv: args });
-    vex.execute(cmd, args).catch(err => {
-        console.error('Error executing command:', err);
-        process.exit(1);
-    });
-} catch (err) {
-    console.error('Failed to start CLI:', err);
-    process.exit(1);
-}
+    await vex.execute(cmd, args);
+})();
