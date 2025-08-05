@@ -13,7 +13,12 @@ export default async function (vex: Vex, all?: boolean) {
     
 Usage:
 
-vex help
+vex add <package>       Add a new package
+vex init                Creates a new package.json
+vex install             Install dependencies
+vex remove <package>    Remove a package
+vex run <script>        Run a script
+vex help                Show help
 
 All commands:
 ${allCommands}

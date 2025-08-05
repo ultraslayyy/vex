@@ -3,13 +3,15 @@ export const commands: string[] = [
     'help',
     'init',
     'install',
-    'remove'
+    'remove',
+    'run'
 ];
 
 export const aliases: { [a: string]: string } = {
     a: 'add',
     h: 'help',
-    i: 'install'
+    i: 'install',
+    r: 'run'
 }
 
 export function cmdRef(cmd: string) {

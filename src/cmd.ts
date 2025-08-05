@@ -74,7 +74,7 @@ export abstract class Command {
         return `vex ${this.name} ${positionals}
         
 Options:
-${formatted.join('\n')}`;
+${this.params.length !== 0 ? formatted.join('\n') : 'None'}`;
     }
 }
 

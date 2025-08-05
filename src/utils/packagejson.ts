@@ -51,7 +51,7 @@ export const defaultPackageJson = (
   "description": "${options.desc ?? ''}",
   "main": "${options.main ?? 'index.js'}",
   "scripts": {
-    "test": "${options.script ?? 'No test script specified'}"
+    "test": "${options.script ?? 'echo No test script specified'}"
   },
   "keywords": [${options.keywords ?? ''}],
   "author": "${options.author ?? ''}",

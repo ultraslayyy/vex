@@ -39,6 +39,7 @@ export default class Vex {
 
             if (parsed?.$global.help) {
                 await this.execute('help', [cmdRef(cmd) ?? '']);
+                return;
             }
 
             if (command.customParams) {
