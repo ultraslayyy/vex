@@ -8,13 +8,15 @@
     "start": "ts-node src/vex.ts"
   },
   "bin": {
-    "vex": "./dist/vex.js"
+    "vex": "./bin/vex-cli.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ultraslayyy/i-am-bored.git"
   },
-  "keywords": [],
+  "keywords": [
+    "cli"
+  ],
   "author": "ultraslayyy",
   "license": "ISC",
   "type": "commonjs",
@@ -27,12 +29,16 @@
     "@types/node": "^24.0.14",
     "@types/semver": "^7.7.0",
     "@types/tar-stream": "^3.1.4",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {
     "fs-extra": "^11.3.0",
     "semver": "^7.7.2",
-    "tar-stream": "^3.1.7",
-    "ts-node": "^10.9.2"
+    "tar-stream": "^3.1.7"
+  },
+  "files": ["lib", "bin"],
+  "engines": {
+    "node": ">=16.19.0"
   }
 }
