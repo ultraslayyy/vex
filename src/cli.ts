@@ -43,7 +43,11 @@ export default class Vex {
             }
 
             if (command.customParams) {
-                await command.execute({}, {}, [], args);
+                try {
+                    await command.execute({}, {}, [], args);
+                } catch (err) {
+                    console.error(err instanceof Error ? err.message : String(err));
+                }
                 return;
             }
 

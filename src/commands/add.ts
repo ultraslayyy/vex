@@ -19,6 +19,7 @@ export default class add extends Command {
         { name: 'peer', type: 'boolean', alias: 'p', description: '[OUT OF ORDER] Mark packages as peerDependencies' }
     ];
     static usage = ['vex add <packages>'];
+    static customParams: boolean = true;
 
     async execute($global: Record<string, any>, $command: Record<string, any>, _: string[], customParams: string[] = []) {
         const pkgs = await this.#parseAddArgs(customParams);
@@ -82,7 +83,7 @@ export default class add extends Command {
                     resolvedVersion = max;
                 }
 
-                const versionMeta = metadata.verisons[resolvedVersion];
+                const versionMeta = metadata.versions[resolvedVersion];
                 const tarballUrl = versionMeta.dist.tarball;
 
                 const res = await fetch(tarballUrl);
@@ -104,6 +105,7 @@ export default class add extends Command {
                 await extractTarball(buffer, extractPath);
 
                 updateLockfile(pkg, resolvedVersion, versionMeta);
+                console.log('Installed:', `${pkg}@${resolvedVersion}`);
 
                 if (isRoot) await updatePackageJson(pkg, resolvedVersion, depType);
 
